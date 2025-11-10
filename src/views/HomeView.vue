@@ -3,13 +3,13 @@
     class="relative h-screen flex flex-col items-center justify-center overflow-hidden transition-opacity duration-1000"
     :class="{ 'opacity-0': fadingOut }"
   >
-    <!-- Fundo principal -->
+    <!-- Fundo -->
     <div
       class="absolute inset-0 bg-cover bg-center brightness-75"
       style="background-image: url('/images/tela-inicial.jpg');"
     ></div>
 
-    <!-- Camada de partículas -->
+    <!-- Partículas -->
     <div class="absolute inset-0">
       <canvas ref="particlesCanvas" class="w-full h-full"></canvas>
     </div>
@@ -39,15 +39,14 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const particlesCanvas = ref(null);
 const fadingOut = ref(false);
-
-const startGame = () => {
-  fadingOut.value = true;
-  setTimeout(() => {
-    router.push("/game");
-  }, 1200); // tempo do fade-out
-};
+let iniciarSom;
 
 onMounted(() => {
+  // carrega o som
+  iniciarSom = new Audio("/sounds/intro-sound.mp3");
+  iniciarSom.volume = 0.6; // volume médio
+
+  // configura partículas
   const canvas = particlesCanvas.value;
   const ctx = canvas.getContext("2d");
 
@@ -98,6 +97,14 @@ onMounted(() => {
 
   animate();
 });
+
+const startGame = () => {
+  if (iniciarSom) iniciarSom.play();
+  fadingOut.value = true;
+  setTimeout(() => {
+    router.push("/game");
+  }, 1500); // tempo para o som + fade
+};
 </script>
 
 <style>
