@@ -6,7 +6,7 @@
     <canvas ref="particlesCanvas" class="absolute inset-0 z-0 pointer-events-none"></canvas>
 
     <!-- Slot principal -->
-    <main class="relative z-20 w-full h-full flex items-center justify-center">
+    <main class="w-full h-full flex items-center justify-center">
       <slot />
     </main>
   </div>
