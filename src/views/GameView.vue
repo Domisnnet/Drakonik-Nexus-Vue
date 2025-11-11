@@ -1,8 +1,8 @@
 <template>
   <div
-    class="relative w-full min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-black via-indigo-950 to-black overflow-hidden"
+    class="relative w-full h-screen flex flex-col items-center justify-center bg-gradient-to-b from-black via-indigo-950 to-black overflow-hidden"
   >
-    <!-- Efeito giratório do fundo -->
+    <!-- Efeito de energia no fundo -->
     <div class="absolute inset-0 animate-rotateBg opacity-40">
       <div
         class="absolute w-[150%] h-[150%] bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.3),transparent_70%)]"
@@ -11,86 +11,69 @@
 
     <!-- Cabeçalho -->
     <header
-      class="z-10 text-center mb-8 drop-shadow-[0_0_10px_rgba(147,51,234,0.8)]"
+      class="z-10 text-center mb-6 drop-shadow-[0_0_10px_rgba(147,51,234,0.8)]"
     >
       <h1
-        class="text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-purple-400 via-blue-500 to-purple-700 bg-clip-text text-transparent"
+        class="text-3xl md:text-5xl font-extrabold bg-gradient-to-r from-purple-400 via-blue-500 to-purple-700 bg-clip-text text-transparent"
       >
         Drakonik Nexus!
       </h1>
-      <p class="text-sm uppercase tracking-widest text-indigo-300 mt-2">
-        Duel Arena
-      </p>
     </header>
 
-    <!-- Slider de cartas -->
-    <div class="z-10 relative flex items-center justify-center w-full px-6">
-      <!-- Botão esquerda -->
+    <!-- Área principal -->
+    <main
+      class="relative flex items-center justify-center w-full flex-1 z-10 max-w-6xl px-4"
+    >
+      <!-- Seta esquerda -->
       <button
-        class="absolute left-6 md:left-12 text-indigo-400 hover:text-white transition-transform hover:scale-125 text-4xl"
-        @click="prevCard"
+        @click="previousCard"
+        class="absolute left-4 md:left-10 text-purple-400 hover:text-white text-4xl transition transform hover:scale-110"
       >
-        ‹
+        ◀
       </button>
 
-      <!-- Card principal -->
-      <FlipCard
-        v-if="currentCard"
-        :fundo="currentCard.fundo"
-        :content-url="currentCard.contentUrl"
-        :alt="currentCard.alt"
-        :descricao="currentCard.descricao"
-        :atk="currentCard.atk"
-        :def="currentCard.def"
-        :card-state="currentCard.cardState"
-        @click-event="gameStore.handleCardClick(currentCard.id)"
-        class="transition-transform duration-500 hover:scale-105 hover:drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]"
-      />
+      <!-- Card central -->
+      <div class="flex justify-center items-center w-full">
+        <FlipCard
+          v-if="currentCard"
+          :fundo="currentCard.fundo"
+          :card-state="currentCard.cardState"
+          :content-url="currentCard.contentUrl"
+          :alt="currentCard.alt"
+          :nivel="currentCard.nivel"
+          :descricao="currentCard.descricao"
+          :atk="currentCard.atk"
+          :def="currentCard.def"
+          @click-event="flipCard"
+          class="transition-transform duration-500 hover:scale-105 mx-auto"
+        />
+      </div>
 
-      <!-- Botão direita -->
+      <!-- Seta direita -->
       <button
-        class="absolute right-6 md:right-12 text-indigo-400 hover:text-white transition-transform hover:scale-125 text-4xl"
         @click="nextCard"
+        class="absolute right-4 md:right-10 text-purple-400 hover:text-white text-4xl transition transform hover:scale-110"
       >
-        ›
+        ▶
       </button>
-    </div>
+    </main>
 
-    <!-- Rodapé -->
-    <footer class="z-10 mt-8 flex flex-col items-center">
-      <button
-        class="px-8 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold rounded-full shadow-lg hover:from-indigo-500 hover:to-purple-600 transition-all"
-        @click="gameStore.resetGame"
+    <!-- Botão Voltar -->
+    <footer class="z-10 mt-6 mb-4">
+      <router-link
+        to="/"
+        class="text-indigo-300 hover:text-purple-400 transition text-lg"
       >
-        Reiniciar Jogo
-      </button>
-      <p class="text-xs text-indigo-400 mt-2 tracking-widest uppercase">
-        {{ currentIndex + 1 }} / {{ gameStore.cards.length }}
-      </p>
+        Voltar à Tela Inicial
+      </router-link>
     </footer>
-
-    <!-- Partículas -->
-    <div class="absolute inset-0 pointer-events-none">
-      <div
-        v-for="i in 25"
-        :key="i"
-        class="absolute bg-blue-400/30 rounded-full animate-pulseParticle"
-        :style="{
-          top: `${Math.random() * 100}%`,
-          left: `${Math.random() * 100}%`,
-          width: `${Math.random() * 4 + 2}px`,
-          height: `${Math.random() * 4 + 2}px`,
-          animationDelay: `${Math.random() * 4}s`,
-        }"
-      ></div>
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useGameStore } from "@/stores/game";
-import FlipCard from "@/components/FlipCard.vue";
+import FlipCard from "@/components/game/FlipCard.vue";
 
 const gameStore = useGameStore();
 const currentIndex = ref(0);
@@ -103,19 +86,20 @@ onMounted(() => {
 
 const currentCard = computed(() => gameStore.cards[currentIndex.value]);
 
-function nextCard() {
-  if (gameStore.cards.length > 0) {
-    currentIndex.value = (currentIndex.value + 1) % gameStore.cards.length;
-  }
-}
+const nextCard = () => {
+  currentIndex.value = (currentIndex.value + 1) % gameStore.cards.length;
+};
 
-function prevCard() {
-  if (gameStore.cards.length > 0) {
-    currentIndex.value =
-      (currentIndex.value - 1 + gameStore.cards.length) %
-      gameStore.cards.length;
+const previousCard = () => {
+  currentIndex.value =
+    (currentIndex.value - 1 + gameStore.cards.length) % gameStore.cards.length;
+};
+
+const flipCard = () => {
+  if (currentCard.value) {
+    gameStore.handleCardClick(currentCard.value.id);
   }
-}
+};
 </script>
 
 <style scoped>
@@ -129,20 +113,5 @@ function prevCard() {
 }
 .animate-rotateBg {
   animation: rotateBg 30s linear infinite;
-}
-
-@keyframes pulseParticle {
-  0%,
-  100% {
-    opacity: 0.2;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.6);
-  }
-}
-.animate-pulseParticle {
-  animation: pulseParticle 3s ease-in-out infinite;
 }
 </style>
