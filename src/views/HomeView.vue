@@ -1,29 +1,14 @@
 <template>
-  <BaseLayout>
-    <div
-      class="relative flex flex-col items-center justify-end h-full w-full pb-[8vh] text-center"
-    >
-      <!-- Fundo de Dragões para Desktop -->
-      <div class="absolute inset-0 z-0 hidden md:flex">
-        <div
-          class="absolute left-0 top-0 bottom-0 w-1/2 bg-[url('/images/dragon-left.png')] bg-cover bg-center bg-no-repeat transform -scale-x-100"
-        ></div>
-        <div
-          class="absolute right-0 top-0 bottom-0 w-1/2 bg-[url('/images/dragon-right.png')] bg-cover bg-center bg-no-repeat"
-        ></div>
-      </div>
-
-      <!-- Fundo Mobile -->
-      <div
-        class="absolute inset-0 z-0 md:hidden bg-[url('/images/tela-mobile.jpg')] bg-cover bg-center bg-no-repeat"
-      ></div>
-
+  <BaseLayout :show-dragons="true">
+    <div class="relative flex flex-col items-center justify-end h-full w-full pb-[8vh] text-center">
       <!-- Canvas de Partículas -->
       <canvas ref="particlesCanvas" class="absolute inset-0 w-full h-full pointer-events-none z-10"></canvas>
 
       <!-- Conteúdo -->
       <div class="relative z-20">
-        <h1 class="text-5xl md:text-6xl font-extrabold text-black drop-shadow-[0_0_20px_rgba(128,0,255,0.8)] mb-8 animate-fade-in">
+        <h1
+          class="text-5xl md:text-6xl font-extrabold text-black drop-shadow-[0_0_20px_rgba(128,0,255,0.8)] mb-8 animate-fade-in"
+        >
           Drakonik Nexus!
         </h1>
         <button
