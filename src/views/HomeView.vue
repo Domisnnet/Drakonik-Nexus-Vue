@@ -81,29 +81,29 @@ const startGame = () => {
 
 <style scoped>
 .home-container {
-  position: fixed;
-  inset: 0;
+  height: 100%; 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end; 
   padding-bottom: 8vh;
   box-sizing: border-box; 
-  overflow: hidden;
   transition: opacity 1s ease;
+  position: relative; 
 }
 
 .background {
   position: absolute;
   inset: 0;
   background-image: url("/images/tela3.png");
-  background-size: contain; 
+  background-size: cover; 
   background-position: center; 
   background-repeat: no-repeat;
   filter: brightness(0.75);
   transform-origin: center;
   z-index: 0;
   transition: transform 3s ease-out;
+  max-width: 100%;
 }
 
 .background-mobile {
@@ -115,6 +115,7 @@ const startGame = () => {
   background-position: center;
   background-repeat: no-repeat;
   z-index: 0;
+  max-width: 100%;
 }
 
 .background::after {
@@ -132,6 +133,7 @@ const startGame = () => {
   height: 100%;
   pointer-events: none;
   z-index: 1;
+  max-width: 100%;
 }
 
 .content {
