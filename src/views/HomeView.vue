@@ -3,8 +3,10 @@
     class="home-container"
     :class="{ 'opacity-0': fadingOut }"
   >
-    <!-- Fundo fixo -->
+    <!-- Fundo Fixo para Desktop -->
     <div class="background"></div>
+    <!-- Fundo para Mobile -->
+    <div class="background-mobile"></div>
 
     <!-- Partículas -->
     <canvas ref="particlesCanvas" class="particles"></canvas>
@@ -31,6 +33,7 @@ onMounted(() => {
   iniciarSom.volume = 0.6;
 
   const canvas = particlesCanvas.value;
+  if (!canvas) return;
   const ctx = canvas.getContext("2d");
 
   const resizeCanvas = () => {
@@ -49,6 +52,7 @@ onMounted(() => {
   }));
 
   const animate = () => {
+    if (!ctx) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "rgba(160, 80, 255, 0.7)";
     ctx.beginPath();
@@ -76,45 +80,41 @@ const startGame = () => {
 </script>
 
 <style scoped>
-/* remove completamente o scroll */
-html, body, #app {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-}
-
-/* container fixo cobrindo tudo */
 .home-container {
   position: fixed;
   inset: 0;
-  width: 100vw;
-  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end; 
-  padding-bottom: 6vh;
+  padding-bottom: 8vh;
   box-sizing: border-box; 
   overflow: hidden;
   transition: opacity 1s ease;
-  background: black;
 }
 
-/* fundo com imagem direta via CSS */
 .background {
   position: absolute;
   inset: 0;
   background-image: url("/images/tela3.png");
-  background-size: contain; 
+  background-size: cover; 
   background-position: center; 
   background-repeat: no-repeat;
   filter: brightness(0.75);
-  transform: scale(1.05); 
   transform-origin: center;
   z-index: 0;
   transition: transform 3s ease-out;
+}
+
+.background-mobile {
+  display: none; /* Oculto por padrão */
+  position: absolute;
+  inset: 0;
+  background-image: url('/images/tela-inicial.jpg');
+  background-size: cover; /* Corrigido de contain para cover */
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
 }
 
 .background::after {
@@ -125,7 +125,6 @@ html, body, #app {
   z-index: 1;
 }
 
-/* partículas */
 .particles {
   position: absolute;
   inset: 0;
@@ -135,7 +134,6 @@ html, body, #app {
   z-index: 1;
 }
 
-/* conteúdo */
 .content {
   position: relative;
   z-index: 2;
@@ -175,6 +173,26 @@ html, body, #app {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Media Query para Responsividade */
+@media (max-width: 768px) {
+  .background {
+    display: none; /* Esconde o fundo de desktop */
+  }
+
+  .background-mobile {
+    display: block; /* Mostra o fundo para mobile */
+  }
+
+  .title {
+    color: white; /* Garante legibilidade no novo fundo */
+    font-size: 2.5rem;
+  }
+
+  .home-container {
+    padding-bottom: 12vh; /* Ajuste no espaçamento inferior para mobile */
   }
 }
 </style>
