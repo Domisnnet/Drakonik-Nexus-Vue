@@ -51,7 +51,7 @@
 <script setup>
 import { computed, onMounted } from "vue";
 import FlipCard from "../components/game/FlipCard.vue";
-import SliderNavigator from '@/components/game/SliderNavigator.vue';
+import SliderNavigator from '@/components/ui/SliderNavigator.vue';
 import { useGameStore } from "../stores/game";
 
 const gameStore = useGameStore();
