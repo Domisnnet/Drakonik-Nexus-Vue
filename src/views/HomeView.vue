@@ -104,8 +104,8 @@ html, body, #app {
 .background {
   position: absolute;
   inset: 0;
-  background-image: url("/images/tela-inicial.jpg");
-  background-size: contain; 
+  background-image: url("/images/tela3.png");
+  background-size: cover; 
   background-position: center; 
   background-repeat: no-repeat;
   filter: brightness(0.75);
