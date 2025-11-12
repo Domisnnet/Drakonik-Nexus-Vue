@@ -4,11 +4,13 @@
     :class="{ 'opacity-0': fadingOut }"
   >
     <div class="absolute inset-0 z-0">
+      <!-- Fundo para Celular/Tablet (Visível até xl) -->
       <div
         class="block xl:hidden h-full w-full bg-cover bg-center brightness-75"
-        style="background-image: url('/images/dragon-mobile.jpg');"
+        style="background-image: url('/images/dragon-mobile.png');"
       ></div>
 
+      <!-- Fundo para Desktop (Visível a partir de xl) -->
       <div class="hidden xl:flex w-full h-full">
         <div
           class="h-full w-1/2 bg-cover bg-no-repeat bg-center brightness-75 transform -scale-x-100"
@@ -21,10 +23,12 @@
       </div>
     </div>
 
+    <!-- Camada de partículas (na frente do fundo) -->
     <div class="absolute inset-0 z-10">
       <canvas ref="particlesCanvas" class="w-full h-full"></canvas>
     </div>
 
+    <!-- Conteúdo (frente de tudo) -->
     <div class="relative z-20 flex flex-col items-center text-center px-4">
       <h1
         class="text-5xl md:text-6xl font-extrabold text-white drop-shadow-[0_0_15px_rgba(128,0,255,0.8)] mb-8 animate-fade-in"
@@ -52,12 +56,13 @@ const fadingOut = ref(false);
 
 const startGame = () => {
   const audio = new Audio("/sounds/intro-sound.mp3");
+  audio.volume = 0.2; 
   audio.play();
 
   fadingOut.value = true;
   setTimeout(() => {
     router.push("/game");
-  }, 1200); 
+  }, 1200); // tempo do fade-out
 };
 
 onMounted(() => {
@@ -69,7 +74,7 @@ onMounted(() => {
   let particleCount = 100;
 
   const setupParticles = () => {
-    particles.length = 0; 
+    particles.length = 0; // Limpa as partículas existentes
     for (let i = 0; i < particleCount; i++) {
       particles.push({
         x: Math.random() * canvas.width,
@@ -107,6 +112,7 @@ onMounted(() => {
     for (let i = 0; i < particles.length; i++) {
       const p = particles[i];
       p.y -= p.d;
+      // Reposicionar se sair da tela
       if (p.y < -p.r) {
         p.y = canvas.height + p.r;
         p.x = Math.random() * canvas.width;
