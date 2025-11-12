@@ -1,32 +1,24 @@
 <template>
-  <div
-    class="relative flex flex-col items-center justify-center h-full w-full text-center overflow-hidden"
-  >
-    <!-- Fundo de Dragões (apenas Home) -->
-    <div class="absolute inset-0 z-0 hidden md:flex">
-      <div
-        class="absolute left-0 top-0 bottom-0 w-1/2 bg-[url('/images/dragon-left.png')] bg-cover bg-center bg-no-repeat transform -scale-x-100 opacity-90"
-      ></div>
-      <div
-        class="absolute right-0 top-0 bottom-0 w-1/2 bg-[url('/images/dragon-right.png')] bg-cover bg-center bg-no-repeat opacity-90"
-      ></div>
-    </div>
-
-    <!-- Fundo Mobile -->
+  <div class="relative h-screen flex flex-col items-center justify-center overflow-hidden">
+    <!-- Fundo principal -->
     <div
-      class="absolute inset-0 z-0 md:hidden bg-[url('/images/tela-mobile.jpg')] bg-cover bg-center bg-no-repeat"
+      class="absolute inset-0 bg-cover bg-center brightness-75"
+      style="background-image: url('/images/dragon-left.png');"
     ></div>
 
-    <!-- Conteúdo -->
-    <div class="relative z-10 animate-fade-in flex flex-col items-center">
-      <h1
-        class="text-5xl md:text-6xl font-extrabold text-white drop-shadow-[0_0_20px_rgba(128,0,255,0.8)] mb-8"
-      >
+    <!-- Camada de partículas -->
+    <div class="absolute inset-0">
+      <canvas ref="particlesCanvas" class="w-full h-full"></canvas>
+    </div>
+
+    <!-- Conteúdo principal -->
+    <div class="relative z-10 flex flex-col items-center">
+      <h1 class="text-5xl md:text-6xl font-extrabold text-white drop-shadow-[0_0_15px_rgba(128,0,255,0.8)] mb-8 animate-fade-in">
         Drakonik Nexus!
       </h1>
+
       <button
-        @click="startGame"
-        class="px-8 py-3 text-xl font-semibold text-white border-2 border-purple-500 rounded-xl bg-black/80 shadow-[0_0_10px_rgba(128,0,255,0.6)] transition hover:bg-purple-800 hover:shadow-[0_0_20px_rgba(128,0,255,0.9)]"
+        class="px-8 py-3 text-lg font-semibold text-white border-2 border-purple-500 rounded-xl hover:bg-purple-700 transition duration-300 shadow-[0_0_10px_rgba(128,0,255,0.6)]"
       >
         Iniciar
       </button>
@@ -35,23 +27,68 @@
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
+import { onMounted, ref } from "vue";
 
-const router = useRouter();
+const particlesCanvas = ref(null);
 
-const startGame = () => {
-  const iniciarSom = new Audio("/sounds/intro-sound.mp3");
-  iniciarSom.volume = 0.6;
-  iniciarSom.play();
-  setTimeout(() => router.push("/game"), 1500);
-};
+onMounted(() => {
+  const canvas = particlesCanvas.value;
+  const ctx = canvas.getContext("2d");
+
+  const particles = [];
+  const particleCount = 100;
+
+  const resizeCanvas = () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  };
+
+  resizeCanvas();
+  window.addEventListener("resize", resizeCanvas);
+
+  for (let i = 0; i < particleCount; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 3 + 1,
+      d: Math.random() * 1.5 + 0.5,
+    });
+  }
+
+  const animate = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "rgba(155, 80, 255, 0.8)";
+    ctx.beginPath();
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      ctx.moveTo(p.x, p.y);
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, true);
+    }
+
+    ctx.fill();
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.y += p.d;
+      if (p.y > canvas.height) {
+        p.y = 0;
+        p.x = Math.random() * canvas.width;
+      }
+    }
+
+    requestAnimationFrame(animate);
+  };
+
+  animate();
+});
 </script>
 
-<style scoped>
+<style>
 @keyframes fade-in {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -59,6 +96,6 @@ const startGame = () => {
   }
 }
 .animate-fade-in {
-  animation: fade-in 1.5s ease-out forwards;
+  animation: fade-in 1.8s ease-out forwards;
 }
 </style>
