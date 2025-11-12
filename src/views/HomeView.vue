@@ -8,12 +8,12 @@
         class="block xl:hidden h-full w-full bg-cover bg-center brightness-75"
         style="background-image: url('/images/dragon-mobile.jpg');"
       ></div>
+
       <div class="hidden xl:flex w-full h-full">
         <div
           class="h-full w-1/2 bg-cover bg-no-repeat bg-center brightness-75 transform -scale-x-100"
           style="background-image: url('/images/dragon-left.png');"
         ></div>
-
         <div
           class="h-full w-1/2 bg-cover bg-no-repeat bg-center brightness-75"
           style="background-image: url('/images/dragon-right.png');"
@@ -51,10 +51,13 @@ const particlesCanvas = ref(null);
 const fadingOut = ref(false);
 
 const startGame = () => {
+  const audio = new Audio("/sounds/intro-sound.mp3");
+  audio.play();
+
   fadingOut.value = true;
   setTimeout(() => {
     router.push("/game");
-  }, 1200); // tempo do fade-out
+  }, 1200); 
 };
 
 onMounted(() => {
