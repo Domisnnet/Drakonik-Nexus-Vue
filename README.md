@@ -1,4 +1,4 @@
-![Drakonik Nexus!]()
+![Drakonik Nexus!](https://github.com/Domisnnet/drakonik-nexus/blob/main/public/images/drakonik-nexus.png)
 
 ---
 
