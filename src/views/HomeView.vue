@@ -3,7 +3,7 @@
     
     <!-- Título Principal -->
     <h1 class="text-4xl md:text-5xl font-bold mb-4 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
-      Drakonik Nexus
+      Drakonik Nexus!
     </h1>
     <p class="max-w-2xl mb-8 text-slate-300">
       Explore a coleção de cartas abaixo e, quando estiver pronto, clique em "Iniciar Jogo" para testar sua memória.
