@@ -18,13 +18,13 @@
         />
       </div>
 
-      <!-- Front of the card: Rebuilt with CSS Grid for robust layout -->
+      <!-- Front of the card: Final, robust Flexbox layout -->
       <div
-        class="absolute w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] rounded-lg md:rounded-xl overflow-hidden shadow-2xl border-2 border-slate-700 grid grid-rows-[auto_1fr_auto]"
+        class="absolute w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] rounded-lg md:rounded-xl overflow-hidden shadow-2xl border-2 border-slate-700 flex flex-col"
         :class="`bg-[url('/images/${fundo}.jpg')] bg-cover`"
       >
-        <!-- 1. Header (Grid Row 1) -->
-        <div class="p-2 bg-gradient-to-b from-black/80 to-transparent text-white">
+        <!-- 1. Header (fixed size) -->
+        <div class="p-2 bg-gradient-to-b from-black/80 to-transparent text-white flex-shrink-0">
           <div class="flex justify-between items-start">
             <h2 class="text-sm font-bold leading-tight pr-2">{{ nome }}</h2>
             <div class="flex items-center gap-1 text-yellow-400 flex-shrink-0">
@@ -34,20 +34,18 @@
           </div>
         </div>
 
-        <!-- 2. Image (Grid Row 2): Takes up the main space -->
-        <div class="relative min-h-0">
-          <img :src="characterImageUrl" :alt="alt" class="absolute inset-0 w-full h-full object-cover border-y-2 border-slate-600" />
+        <!-- 2. Image container (takes all remaining space) -->
+        <div class="flex-1 relative min-h-0 border-y-2 border-slate-600">
+          <img :src="characterImageUrl" :alt="alt" class="absolute inset-0 w-full h-full object-cover" />
         </div>
 
-        <!-- 3. Body (Grid Row 3): Contains description and stats -->
-        <div class="p-2 text-white bg-gradient-to-t from-black/80 to-transparent flex flex-col">
-          <!-- Description container with a fixed height, allowing more space for the image -->
-          <div class="overflow-y-auto scrollbar-thin h-20 border-t border-slate-400/50 pt-2">
+        <!-- 3. Body (fixed height) -->
+        <div class="p-2 text-white bg-gradient-to-t from-black/80 to-transparent flex-shrink-0 h-28 flex flex-col">
+          <div class="flex-1 overflow-y-auto scrollbar-thin">
             <p class="text-xs sm:text-sm italic font-serif leading-snug">
               {{ descricao }}
             </p>
           </div>
-          <!-- Stats are fixed at the bottom -->
           <div class="text-right text-sm font-semibold mt-2 flex-shrink-0">
             <span>⚔️ ATK / {{ atk }}</span>
             <span class="ml-3">🛡️ DEF / {{ def }}</span>

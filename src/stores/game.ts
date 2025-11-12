@@ -69,7 +69,7 @@ const RAW_CARD_DATA = [
     atk: 3000,
     def: 2800,
   },
-    {
+  {
     pairValue: 7,
     nome: 'Solaris, a Fênix da Chama Eterna',
     fundo: 'fundo-7',
