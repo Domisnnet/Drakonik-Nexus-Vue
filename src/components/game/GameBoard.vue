@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="gameStore.cards.length"
-    class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4 p-4 items-center justify-center"
+    class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 md:gap-4 p-4 w-full max-w-6xl mx-auto"
   >
     <FlipCard
       v-for="card in gameStore.cards"

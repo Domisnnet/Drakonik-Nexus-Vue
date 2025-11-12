@@ -1,15 +1,15 @@
 <template>
-  <div class="flex flex-col items-center justify-start w-full h-full p-4 overflow-y-auto">
+  <div class="flex flex-col items-center justify-start w-full min-h-screen p-4 overflow-y-auto bg-gray-900/50">
     
     <!-- Placar e Controles -->
-    <div class="w-full max-w-4xl mb-4 p-3 rounded-lg bg-black/30 backdrop-blur-sm border border-cyan-400/30 flex items-center justify-between shadow-lg">
+    <div class="w-full max-w-6xl mb-4 p-3 rounded-lg bg-black/40 backdrop-blur-sm border border-cyan-400/30 flex items-center justify-between shadow-lg sticky top-4 z-10">
       <div class="flex gap-4 md:gap-6 text-white">
         <div class="text-center">
-          <span class="text-xs text-cyan-300 uppercase">Pontuação</span>
+          <span class="text-xs text-cyan-300 uppercase font-semibold">Pontuação</span>
           <p class="text-xl md:text-2xl font-bold">{{ gameStore.score }}</p>
         </div>
         <div class="text-center">
-          <span class="text-xs text-cyan-300 uppercase">Movimentos</span>
+          <span class="text-xs text-cyan-300 uppercase font-semibold">Movimentos</span>
           <p class="text-xl md:text-2xl font-bold">{{ gameStore.moves }}</p>
         </div>
       </div>
@@ -24,10 +24,15 @@
     </div>
 
     <!-- Alerta de Fim de Jogo -->
-    <div v-if="gameStore.isGameOver" class="w-full max-w-4xl mb-4 p-4 rounded-lg bg-green-500/80 text-white text-center shadow-2xl">
+    <div v-if="gameStore.isGameOver" class="w-full max-w-6xl my-4 p-4 rounded-lg bg-green-500/90 text-white text-center shadow-2xl backdrop-blur-sm border border-green-300">
       <h2 class="text-2xl font-bold">Parabéns! Você venceu!</h2>
       <p>Sua pontuação final foi {{ gameStore.score }} em {{ gameStore.moves }} movimentos.</p>
     </div>
+
+    <!-- Título da Seção -->
+    <h2 v-if="!gameStore.isGameOver" class="text-2xl md:text-3xl font-bold text-white my-6 drop-shadow-lg">
+      Escolha uma carta
+    </h2>
 
     <!-- Tabuleiro do Jogo -->
     <GameBoard />
