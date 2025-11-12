@@ -69,12 +69,12 @@ const RAW_CARD_DATA = [
     atk: 3000,
     def: 2800,
   },
-  {
+    {
     pairValue: 7,
     nome: 'Solaris, a Fênix da Chama Eterna',
     fundo: 'fundo-7',
     nivel: 8,
-    imagem: 'phoenix.jpg',
+    imagem: 'cosmos.jpg', // Placeholder image
     alt: 'Solaris, a Fênix da Chama Eterna',
     descricao: 'Uma fênix imortal renascida do fogo de um sol. Sua chama purifica tudo o que toca e seu grito ecoa pela vastidão do universo.',
     atk: 3800,
@@ -85,7 +85,7 @@ const RAW_CARD_DATA = [
     nome: 'Shadowfiend, o Demônio do Vazio',
     fundo: 'fundo-8',
     nivel: 6,
-    imagem: 'shadow.jpg',
+    imagem: 'knight.jpg', // Placeholder image
     alt: 'Shadowfiend, o Demônio do Vazio',
     descricao: 'Uma entidade de pura escuridão que consome a luz. Ele se esconde nas sombras entre as estrelas, esperando o momento de atacar.',
     atk: 3400,

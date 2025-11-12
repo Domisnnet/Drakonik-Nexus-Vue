@@ -18,13 +18,13 @@
         />
       </div>
 
-      <!-- Front of the card: Final, stable Flexbox architecture -->
+      <!-- Front of the card: Rebuilt with CSS Grid for robust layout -->
       <div
-        class="absolute w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] rounded-lg md:rounded-xl overflow-hidden shadow-2xl border-2 border-slate-700 flex flex-col"
+        class="absolute w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] rounded-lg md:rounded-xl overflow-hidden shadow-2xl border-2 border-slate-700 grid grid-rows-[auto_1fr_auto]"
         :class="`bg-[url('/images/${fundo}.jpg')] bg-cover`"
       >
-        <!-- 1. Header -->
-        <div class="p-2 bg-gradient-to-b from-black/80 to-transparent text-white flex-shrink-0">
+        <!-- 1. Header (Grid Row 1) -->
+        <div class="p-2 bg-gradient-to-b from-black/80 to-transparent text-white">
           <div class="flex justify-between items-start">
             <h2 class="text-sm font-bold leading-tight pr-2">{{ nome }}</h2>
             <div class="flex items-center gap-1 text-yellow-400 flex-shrink-0">
@@ -34,15 +34,15 @@
           </div>
         </div>
 
-        <!-- 2. Image: Increased height to better fit character art -->
-        <div class="h-48 w-full border-y-2 border-slate-600 bg-black/30">
-          <img :src="characterImageUrl" :alt="alt" class="w-full h-full object-cover" />
+        <!-- 2. Image (Grid Row 2): Takes up the main space -->
+        <div class="relative min-h-0">
+          <img :src="characterImageUrl" :alt="alt" class="absolute inset-0 w-full h-full object-cover border-y-2 border-slate-600" />
         </div>
 
-        <!-- 3. Body: Reliably takes remaining space -->
-        <div class="p-2 text-white bg-gradient-to-t from-black/80 to-transparent flex-1 flex flex-col min-h-0">
-          <!-- Description container that scrolls -->
-          <div class="flex-1 overflow-y-auto scrollbar-thin border-t border-slate-400/50 pt-2">
+        <!-- 3. Body (Grid Row 3): Contains description and stats -->
+        <div class="p-2 text-white bg-gradient-to-t from-black/80 to-transparent flex flex-col">
+          <!-- Description container with a fixed height, allowing more space for the image -->
+          <div class="overflow-y-auto scrollbar-thin h-20 border-t border-slate-400/50 pt-2">
             <p class="text-xs sm:text-sm italic font-serif leading-snug">
               {{ descricao }}
             </p>
