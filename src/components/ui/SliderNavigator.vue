@@ -30,15 +30,14 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { useGameStore } from '@/stores/game';
-import FlipCard from '@/components/game/FlipCard.vue';
-import type { Card } from '@/types';
+import { useGameStore } from '@/stores/game';        // Corrigido
+import FlipCard from '@/components/game/FlipCard.vue'; // Corrigido
+import type { Card } from '@/types';                // Corrigido
 
 const gameStore = useGameStore();
 
 const currentCardIndex = ref(0);
 
-// Agora usamos a lista de cartas únicas diretamente da store
 const currentCard = computed<Card | null>(() => {
   if (gameStore.uniqueCards.length > 0) {
     return gameStore.uniqueCards[currentCardIndex.value];
@@ -53,7 +52,6 @@ onMounted(() => {
   }
 });
 
-// Funções de navegação, agora muito mais simples
 function nextCard() {
   if (gameStore.uniqueCards.length > 0) {
     currentCardIndex.value = (currentCardIndex.value + 1) % gameStore.uniqueCards.length;
@@ -66,9 +64,9 @@ function previousCard() {
   }
 }
 
-// Lógica de Swipe (permanece a mesma e correta)
+// Lógica de Swipe 100% segura para TypeScript
 const touchStartX = ref(0);
-const touchThreshold = 50; // Distância mínima de swipe em pixels
+const touchThreshold = 50; 
 
 function handleTouchStart(event: TouchEvent) {
   if (event.changedTouches.length === 0) return;
@@ -81,10 +79,8 @@ function handleTouchEnd(event: TouchEvent) {
   const deltaX = touchEndX - touchStartX.value;
 
   if (deltaX > touchThreshold) {
-    // Swipe para a Direita
     previousCard();
   } else if (deltaX < -touchThreshold) {
-    // Swipe para a Esquerda
     nextCard();
   }
 }

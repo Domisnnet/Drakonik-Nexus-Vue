@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import type { Card } from '../types';
+import type { Card } from '@/types'; // Corrigido para usar o alias @
 
 // === DADOS BASE DOS CARDS === //
 const RAW_CARD_DATA: Omit<Card, 'id' | 'isFlipped' | 'isMatched'>[] = [
@@ -72,8 +72,8 @@ const RAW_CARD_DATA: Omit<Card, 'id' | 'isFlipped' | 'isMatched'>[] = [
 ];
 
 interface GameState {
-  cards: Card[]; // Para o jogo da memória (16 cartas)
-  uniqueCards: Card[]; // Para o carrossel (8 cartas)
+  cards: Card[];
+  uniqueCards: Card[];
   flippedCards: Card[];
   score: number;
   moves: number;
@@ -92,21 +92,20 @@ export const useGameStore = defineStore('game', {
 
   actions: {
     initializeGame() {
-      // 1. Preenche a lista de cartas únicas para o carrossel
       this.uniqueCards = RAW_CARD_DATA.map((card, index) => ({
         ...card,
-        id: index, // ID único de 0 a 7
-        isFlipped: true, // No carrossel, a carta está sempre virada
+        id: index,
+        isFlipped: true, 
         isMatched: false,
       }));
 
-      // 2. Prepara as cartas para o jogo da memória
-      const duplicatedCards = [...this.uniqueCards, ...this.uniqueCards];
+      const duplicatedCards = [...RAW_CARD_DATA, ...RAW_CARD_DATA];
       const shuffledCards: Card[] = duplicatedCards
         .map((card, index) => ({
           ...card,
-          id: index, // ID único de 0 a 15 para o v-for
-          isFlipped: false, // No jogo, começam viradas para baixo
+          id: index, 
+          isFlipped: false, 
+          isMatched: false,
         }))
         .sort(() => Math.random() - 0.5);
 
