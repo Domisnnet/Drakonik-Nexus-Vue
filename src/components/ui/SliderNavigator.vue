@@ -20,6 +20,7 @@
         :def="currentCard.def"
         :is-flipped="true" 
         :is-matched="false"
+        @flip-card="() => {}"
       />
       <div v-else class="text-white text-center">
         Carregando cartas...
