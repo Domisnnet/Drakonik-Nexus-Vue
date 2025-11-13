@@ -1,23 +1,16 @@
 <template>
-  <div class="flex items-center justify-center gap-4 md:gap-8 w-full">
-    <!-- Botão Voltar -->
-    <button
-      @click="previousCard"
-      class="flex-shrink-0 w-12 h-12 md:w-16 md:h-16 flex items-center justify-center rounded-full bg-slate-700/50 hover:bg-cyan-500/70 transition-all duration-300 shadow-lg backdrop-blur-sm border border-cyan-400/50"
-    >
-      <img
-        src="/images/seta.png"
-        alt="Anterior"
-        class="w-6 h-6 md:w-8 md:h-8 invert transform rotate-180"
-      />
-    </button>
-
+  <div 
+    class="flex items-center justify-center w-full"
+    @touchstart="handleTouchStart"
+    @touchend="handleTouchEnd"
+  >
     <!-- Card Atual -->
-    <div class="w-64 h-96">
+    <div class="w-64 h-96 cursor-pointer select-none">
       <FlipCard
         v-if="currentCard"
-        :key="currentCard.cardId" 
-        :card-id="currentCard.cardId"
+        :key="currentCard.id" 
+        :id="currentCard.id"
+        :pair-value="currentCard.pairValue"
         :nome="currentCard.nome"
         :fundo="currentCard.fundo"
         :nivel="currentCard.nivel"
@@ -33,42 +26,63 @@
         Carregando cartas...
       </div>
     </div>
-
-    <!-- Botão Avançar -->
-    <button
-      @click="nextCard"
-      class="flex-shrink-0 w-12 h-12 md:w-16 md:h-16 flex items-center justify-center rounded-full bg-slate-700/50 hover:bg-cyan-500/70 transition-all duration-300 shadow-lg backdrop-blur-sm border border-cyan-400/50"
-    >
-      <img
-        src="/images/seta.png"
-        alt="Avançar"
-        class="w-6 h-6 md:w-8 md:h-8 invert"
-      />
-    </button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useGameStore } from '@/stores/game';
 import FlipCard from '@/components/game/FlipCard.vue';
 
 const gameStore = useGameStore();
 
-const currentCard = computed(() => gameStore.currentCard);
+// Lógica para encontrar o card a ser exibido
+const currentCardIndex = ref(0);
+const currentCard = computed(() => {
+  if (gameStore.cards.length > 0) {
+    return gameStore.cards[currentCardIndex.value];
+  }
+  return null;
+});
 
-// Garante que os dados das cartas sejam carregados quando o componente for montado
+// Garante que os dados das cartas sejam carregados
 onMounted(() => {
   if (gameStore.cards.length === 0) {
-    gameStore.initializeGame();
+    gameStore.initializeGame(); 
   }
 });
 
+// Funções de navegação
 function nextCard() {
-  gameStore.nextCard();
+  if (gameStore.cards.length > 0) {
+    currentCardIndex.value = (currentCardIndex.value + 1) % gameStore.cards.length;
+  }
 }
 
 function previousCard() {
-  gameStore.previousCard();
+  if (gameStore.cards.length > 0) {
+    currentCardIndex.value = (currentCardIndex.value - 1 + gameStore.cards.length) % gameStore.cards.length;
+  }
+}
+
+// Lógica de Swipe
+const touchStartX = ref(0);
+const touchThreshold = 50; // Distância mínima de swipe em pixels
+
+function handleTouchStart(event: TouchEvent) {
+  touchStartX.value = event.changedTouches[0].screenX;
+}
+
+function handleTouchEnd(event: TouchEvent) {
+  const touchEndX = event.changedTouches[0].screenX;
+  const deltaX = touchEndX - touchStartX.value;
+
+  if (deltaX > touchThreshold) {
+    // Swipe para a Direita
+    previousCard();
+  } else if (deltaX < -touchThreshold) {
+    // Swipe para a Esquerda
+    nextCard();
+  }
 }
 </script>
