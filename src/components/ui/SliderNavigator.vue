@@ -30,9 +30,9 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { useGameStore } from '@/stores/game';        // Corrigido
-import FlipCard from '@/components/game/FlipCard.vue'; // Corrigido
-import type { Card } from '@/types';                // Corrigido
+import { useGameStore } from '@/stores/game';        
+import FlipCard from '@/components/game/FlipCard.vue'; 
+import type { Card } from '@/types';              
 
 const gameStore = useGameStore();
 
