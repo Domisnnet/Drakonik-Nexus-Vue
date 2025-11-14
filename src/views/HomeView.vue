@@ -7,18 +7,18 @@
       <!-- Fundo para Celular/Tablet (Visível até xl) -->
       <div
         class="block xl:hidden h-full w-full bg-cover bg-center brightness-75"
-        style="background-image: url('/images/dragon-mobile.jpg');"
+        style="background-image: url('/images/dragon-mobile.jpg')"
       ></div>
 
       <!-- Fundo para Desktop (Visível a partir de xl) -->
       <div class="hidden xl:flex w-full h-full">
         <div
           class="h-full w-1/2 bg-cover bg-no-repeat bg-center brightness-75 transform -scale-x-100"
-          style="background-image: url('/images/dragon-left.png');"
+          style="background-image: url('/images/dragon-left.png')"
         ></div>
         <div
           class="h-full w-1/2 bg-cover bg-no-repeat bg-center brightness-75"
-          style="background-image: url('/images/dragon-right.png');"
+          style="background-image: url('/images/dragon-right.png')"
         ></div>
       </div>
     </div>
@@ -37,8 +37,8 @@
       </h1>
 
       <button
-        @click="startGame"
         class="px-8 py-3 text-lg font-semibold text-white bg-black border-2 border-gray-600 rounded-xl hover:bg-purple-800 hover:border-purple-700 transition-all duration-300 shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_25px_rgba(140,0,255,0.9)]"
+        @click="startGame"
       >
         Iniciar
       </button>
@@ -47,28 +47,28 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const particlesCanvas = ref(null);
 const fadingOut = ref(false);
 
 const startGame = () => {
-  const audio = new Audio("/sounds/intro-sound.mp3");
-  audio.volume = 0.2; 
+  const audio = new Audio('/sounds/intro-sound.mp3');
+  audio.volume = 0.2;
   audio.play();
 
   fadingOut.value = true;
   setTimeout(() => {
-    router.push("/game");
+    router.push('/game');
   }, 1200); // tempo do fade-out
 };
 
 onMounted(() => {
   const canvas = particlesCanvas.value;
   if (!canvas) return;
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext('2d');
 
   const particles = [];
   let particleCount = 100;
@@ -79,8 +79,8 @@ onMounted(() => {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        r: Math.random() * 2.5 + 1, 
-        d: Math.random() * 1 + 0.5,   
+        r: Math.random() * 2.5 + 1,
+        d: Math.random() * 1 + 0.5,
       });
     }
   };
@@ -92,14 +92,14 @@ onMounted(() => {
     setupParticles();
   };
 
-  window.addEventListener("resize", resizeCanvas);
-  resizeCanvas(); 
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
 
   const animate = () => {
     if (!ctx) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "rgba(179, 136, 255, 0.6)"; 
-    
+    ctx.fillStyle = 'rgba(179, 136, 255, 0.6)';
+
     ctx.beginPath();
     for (let i = 0; i < particles.length; i++) {
       const p = particles[i];

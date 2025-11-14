@@ -1,9 +1,9 @@
-import { ref } from 'vue'
+import { ref } from 'vue';
 
 export function useFlipCard() {
-  const isFlipped = ref(false)
+  const isFlipped = ref(false);
   function toggleFlip() {
-    isFlipped.value = !isFlipped.value
+    isFlipped.value = !isFlipped.value;
   }
-  return { isFlipped, toggleFlip }
+  return { isFlipped, toggleFlip };
 }

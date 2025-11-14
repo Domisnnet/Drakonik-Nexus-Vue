@@ -19,21 +19,31 @@
 
       <div
         class="absolute w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] rounded-lg md:rounded-xl overflow-hidden shadow-2xl border-2 border-slate-700 flex flex-col"
-        :class="`bg-[url('/images/${fundo}.jpg')] bg-cover`">
+        :class="`bg-[url('/images/${fundo}.jpg')] bg-cover`"
+      >
         <div class="p-2 bg-gradient-to-b from-black/80 to-transparent text-white flex-shrink-0">
           <div class="flex justify-between items-start">
             <h2 class="text-sm font-bold leading-tight pr-2">{{ nome }}</h2>
             <div class="flex items-center gap-1 text-yellow-400 flex-shrink-0">
               <span class="text-xs font-bold">LV</span>
-              <span class="flex items-center justify-center w-5 h-5 rounded-full bg-yellow-400 text-black text-xs font-bold">{{ nivel }}</span>
+              <span
+                class="flex items-center justify-center w-5 h-5 rounded-full bg-yellow-400 text-black text-xs font-bold"
+                >{{ nivel }}</span
+              >
             </div>
           </div>
         </div>
 
         <div class="flex-1 relative min-h-0 border-y-2 border-slate-600">
-          <img :src="characterImageUrl" :alt="alt" class="absolute inset-0 w-full h-full object-cover" />
+          <img
+            :src="characterImageUrl"
+            :alt="alt"
+            class="absolute inset-0 w-full h-full object-cover"
+          />
         </div>
-        <div class="p-2 text-white bg-gradient-to-t from-black/80 to-transparent flex-shrink-0 h-28 flex flex-col">
+        <div
+          class="p-2 text-white bg-gradient-to-t from-black/80 to-transparent flex-shrink-0 h-28 flex flex-col"
+        >
           <div class="flex-1 overflow-y-auto scrollbar-thin">
             <p class="text-xs sm:text-sm italic font-serif leading-snug">
               {{ descricao }}
