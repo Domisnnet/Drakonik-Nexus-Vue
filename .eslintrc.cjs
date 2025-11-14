@@ -17,17 +17,22 @@ module.exports = {
 
   extends: [
     "eslint:recommended",
-    "plugin:vue/vue3-essential", 
+    "plugin:vue/vue3-essential", // Regras muito mais amigáveis
     "plugin:@typescript-eslint/recommended",
   ],
 
   rules: {
+    // Desativa regras chatas e inúteis para seu projeto
     "vue/html-self-closing": "off",
     "vue/singleline-html-element-content-newline": "off",
     "vue/multiline-html-element-content-newline": "off",
     "vue/max-attributes-per-line": "off",
 
+    // TS e Vue mais livres
     "@typescript-eslint/no-explicit-any": "off",
     "vue/multi-word-component-names": "off",
+
+    // Não quebrar build por console.log
+    "no-console": "warn",
   },
 };
