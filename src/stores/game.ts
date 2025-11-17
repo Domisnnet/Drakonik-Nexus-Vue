@@ -83,6 +83,10 @@ interface GameState {
   score: number;
   moves: number;
   isGameOver: boolean;
+  remainingTime: number;
+  isTimerRunning: boolean;
+  isTimeUp: boolean;
+  timerId: number | null;
 }
 
 export const useGameStore = defineStore('game', {
@@ -93,10 +97,15 @@ export const useGameStore = defineStore('game', {
     score: 0,
     moves: 0,
     isGameOver: false,
+    remainingTime: 120,
+    isTimerRunning: false,
+    isTimeUp: false,
+    timerId: null,
   }),
 
   actions: {
     initializeGame() {
+      this.stopTimer();
       this.uniqueCards = RAW_CARD_DATA.map(
         (card, index): Card => ({
           ...card,
@@ -124,10 +133,16 @@ export const useGameStore = defineStore('game', {
       this.score = 0;
       this.moves = 0;
       this.isGameOver = false;
+      this.remainingTime = 120;
+      this.isTimeUp = false;
     },
 
     flipCard(cardId: number) {
-      if (this.flippedCards.length >= 2) return;
+      if (this.flippedCards.length >= 2 || this.isTimeUp) return;
+
+      if (!this.isTimerRunning && !this.isGameOver) {
+        this.startTimer();
+      }
 
       const card = this.cards.find(c => c.id === cardId);
       if (card && !card.isFlipped && !card.isMatched) {
@@ -164,7 +179,31 @@ export const useGameStore = defineStore('game', {
     checkGameOver() {
       if (this.cards.length > 0 && this.cards.every(card => card.isMatched)) {
         this.isGameOver = true;
+        this.stopTimer();
       }
+    },
+
+    startTimer() {
+      if (this.isTimerRunning) return;
+
+      this.isTimerRunning = true;
+      this.timerId = setInterval(() => {
+        if (this.remainingTime > 0) {
+          this.remainingTime--;
+        } else {
+          this.isTimeUp = true;
+          this.isGameOver = true;
+          this.stopTimer();
+        }
+      }, 1000);
+    },
+
+    stopTimer() {
+      if (this.timerId) {
+        clearInterval(this.timerId);
+        this.timerId = null;
+      }
+      this.isTimerRunning = false;
     },
   },
 });
